@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int a[10], n, sum;
+
+
+void subset(int i, int s, int temp[], int k) {
+    if(s == sum) {
+        for(int j = 0; j < k; j++)
+            printf("%d ", temp[j]);
+        printf("\n");
+        return;
+    }
+
+    if(i == n || s > sum)
+        return;
+
+
+    temp[k] = a[i];
+    subset(i + 1, s + a[i], temp, k + 1);
+
+    subset(i + 1, s, temp, k);
+}
+
+int main() {
+    int temp[10];
+
+    printf("Enter n: ");
+    scanf("%d", &n);
+
+    printf("Enter elements:\n");
+    for(int i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    printf("Enter sum: ");
+    scanf("%d", &sum);
+
+    printf("Subsets are:\n");
+    subset(0, 0, temp, 0);
+
+    return 0;
+}
