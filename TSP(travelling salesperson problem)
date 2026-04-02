@@ -1,0 +1,48 @@
+#include <stdio.h>
+#define N 4
+
+int graph[N][N] = {
+    {0, 10, 15, 20},
+    {10, 0, 35, 25},
+    {15, 35, 0, 30},
+    {20, 25, 30, 0}
+};
+
+int visited[N];
+
+// function to find minimum cost
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+int tsp(int city, int count, int cost) {
+    // if all cities visited, return to start
+    if(count == N && graph[city][0]) {
+        return cost + graph[city][0];
+    }
+
+    int ans = 9999;
+
+    for(int i = 0; i < N; i++) {
+        if(!visited[i] && graph[city][i]) {
+            visited[i] = 1;
+
+            int temp = tsp(i, count + 1, cost + graph[city][i]);
+            ans = min(ans, temp);
+
+            visited[i] = 0; // backtrack
+        }
+    }
+
+    return ans;
+}
+
+int main() {
+    visited[0] = 1; // start from city 0
+
+    int result = tsp(0, 1, 0);
+
+    printf("Minimum travelling cost: %d", result);
+
+    return 0;
+}
